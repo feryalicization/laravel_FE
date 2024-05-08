@@ -25,6 +25,8 @@
     <!-- Custom styles for DataTables -->
     <link href="{{ asset('https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css') }}" rel="stylesheet">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 
 </head>
 
@@ -36,42 +38,33 @@
     @include('sidebar-2')
 
     <!-- Begin Page Content -->
-    <div class="container-fluid">
+    <div class="container-fluid"> 
 
-        <form action="{{ route('pegawai.update', $pegawai->id) }}" method="POST">
-            @csrf
-            @method('PUT') <!-- Use 'PUT' method for update -->
+        <form id="editTranasaksi">
             <div class="mb-3">
-                <label for="nip" class="form-label">NIP</label>
-                <input type="text" class="form-control" id="nip" name="nip" value="{{ $pegawai->nip }}" required>
-            </div>
+                <label for="barang" class="form-label">Barang</label> 
+                <select class="form-select" id="barang" name="barang" required style="margin-left: 53px;width: 150px;">
+                    @foreach ($response as $key => $barang)
+                    <option value="{{ $barang['id'] }}"> {{ $barang['nama_barang'] }} </option>
+                    @endforeach
 
+            </select>
+            </div>
             <div class="mb-3">
-                <label for="nama_pegawai" class="form-label">Nama Pegawai</label>
-                <input type="text" class="form-control" id="nama_pegawai" name="nama_pegawai" value="{{ $pegawai->nama_pegawai }}" required>
+                <label for="jenis_transaksi" class="form-label">Jenis Transaksi</label>
+                <select class="form-select" id="jenis_transaksi" name="jenis_transaksi" required style="width: 150px;">
+                    <option value="jual">Jual</option>
+                    <option value="beli">Beli</option>
+            </select>
             </div>
-
             <div class="mb-3">
-                <label for="jabatan" class="form-label">Jabatan</label>
-                <input type="text" class="form-control" id="jabatan" name="jabatan" value="{{ $pegawai->jabatan }}" required>
+                <label for="jumlah" class="form-label">Jumlah</label>
+                <input type="text" class="form-control" id="jumlah" name="jumlah" required>
             </div>
-
-            <div class="mb-3">
-                <label for="tgl_lahir" class="form-label">Tanggal Lahir</label>
-                <input type="date" class="form-control" id="tgl_lahir" name="tgl_lahir" value="{{ $pegawai->tgl_lahir }}" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="divisi" class="form-label">Divisi</label>
-                <input type="text" class="form-control" id="divisi" name="divisi" value="{{ $pegawai->divisi }}" required>
-            </div>
-
-            <!-- Add other fields based on your Pegawai model attributes -->
-
-            <button type="submit" class="btn btn-primary">Update</button>
+            <!-- Other form fields here -->
+            <button type="button" id="submitForm" class="btn btn-primary">Create</button>
             <a href="{{ route('dashboard.kelola-pegawai') }}" class="btn btn-danger">Cancel</a>
         </form>
-
     </div>
     <!-- End Page Content -->
 
@@ -136,6 +129,134 @@
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
     <script src="js/demo/chart-bar-demo.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        $.ajax({
+            type: 'POST',
+            url: 'http://127.0.0.1:8001/api/token/',
+            headers: {
+                'accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '5KBmbMfCpOK4lycIYb2zsswWtQE8WNTiZBOOJ8I5QI1lQS7buSkJTP3i9s31ooVM'
+            },
+            data: JSON.stringify({
+                "email": "fery@gmail.com",
+                "password": "1234"
+            }),
+            success: function(tokenResponse) {
+                var token = tokenResponse.token;
+                if (token) {
+                    var urlPath = window.location.pathname;
+                    var segments = urlPath.split('/');
+                    var transactionId = segments[segments.length - 2];
+
+                    var transactionHeaders = {
+                        'accept': 'application/json',
+                        'Authorization': '' + token,
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': 'kuniCMoBBljuYsz9QgQrHJc65GS812UQIgXz3O5fTvmkN3AX5Co8quRRqqcWMOVe'
+                    };
+
+                    $.ajax({
+                        type: 'GET',
+                        url: `http://127.0.0.1:8001/transaksi/${transactionId}/`, 
+                        headers: transactionHeaders,
+                        success: function(response) {
+                            console.log('Get Detail Transaction successfully:', response);
+                            var namaBarang = response.nama_barang;
+                            var jenisTransaksi = response.jenis_transaksi;
+                            var jumlah = response.jumlah;
+
+                            $('#barang').append(`<option value="${response.barang}" selected>${namaBarang}</option>`);
+                            $('#jenis_transaksi').append(`<option value="${jenisTransaksi}" selected>${jenisTransaksi}</option>`);
+                            $('#jumlah').val(jumlah);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error retrieving transaction:', error);
+                        }
+                    });
+                } else {
+                    console.error('Error: Token not found in response.');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error generating token:', error);
+            }
+        });
+    });
+</script>
+
+
+    <script>
+       $(document).ready(function() {
+        function fetchTokenAndPatchTransaction() {
+        $.ajax({
+            type: 'POST',
+            url: 'http://127.0.0.1:8001/api/token/',
+            headers: {
+                'accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '5KBmbMfCpOK4lycIYb2zsswWtQE8WNTiZBOOJ8I5QI1lQS7buSkJTP3i9s31ooVM'
+            },
+            data: JSON.stringify({
+                "email": "fery@gmail.com",
+                "password": "1234"
+            }),
+            success: function(tokenResponse) {
+                var token = tokenResponse.token;
+                if (token) {
+                    var urlPath = window.location.pathname;
+                    var segments = urlPath.split('/');
+                    var transactionId = segments[segments.length - 2];
+
+                    var barang = $('#barang').val();
+                    var jenis_transaksi = $('#jenis_transaksi').val();
+                    var jumlah = $('#jumlah').val();
+
+                    var payload = {
+                        "barang": barang,
+                        "jenis_transaksi": jenis_transaksi,
+                        "jumlah": jumlah
+                    };
+
+
+                    var transactionHeaders = {
+                        'accept': 'application/json',
+                        'Authorization': '' + token,
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': 'kuniCMoBBljuYsz9QgQrHJc65GS812UQIgXz3O5fTvmkN3AX5Co8quRRqqcWMOVe'
+                    };
+
+                    $.ajax({
+                        type: 'PUT',
+                        url: `http://127.0.0.1:8001/transaksi/${transactionId}/`,
+                        headers: transactionHeaders,
+                        data: JSON.stringify(payload),
+                        success: function(response) {
+                            console.log('Transaction updated successfully:', response);
+                            window.location.href = '/transaksi'; 
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error updating transaction:', error);
+                        }
+                    });
+                } else {
+                    console.error('Error: Token not found in response.');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error generating token:', error);
+            }
+        });
+    }
+
+    $('#submitForm').click(function() {
+        fetchTokenAndPatchTransaction();
+    });
+});
+
+    </script>
 
 </body>
 

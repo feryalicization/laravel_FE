@@ -161,6 +161,51 @@ class PegawaiController extends Controller
 
 
 
+    public function updateTransaction(Request $request, $transactionId)
+    {
+        try {
+            $request->validate([
+                'barang' => 'required|integer',
+                'jenis_transaksi' => 'required|string|max:255',
+                'jumlah' => 'required|integer',
+            ]);
+
+            $barang = $request->input('barang');
+            $jenisTransaksi = $request->input('jenis_transaksi');
+            $jumlah = $request->input('jumlah');
+
+            $token = $this->getToken();
+
+            $payload = [
+                'barang' => $barang,
+                'jenis_transaksi' => $jenisTransaksi,
+                'jumlah' => $jumlah,
+            ];
+
+            $headers = [
+                'accept: application/json',
+                'Authorization: Token ' . $token,
+                'Content-Type: application/json',
+                'X-CSRFToken: cth2mZwvUzQwOWaQcqT6rYLC0I9B50yW6kuuUlZYlt7Njg5jI7bgSliYGkyuxBAq',
+            ];
+
+            $url = 'http://127.0.0.1:8001/transaksi/' . $transactionId;
+            $response = $this->sendPatchRequest($url, $payload, $headers);
+
+            if (!empty($response)) {
+                Log::info('Transaction updated successfully: ' . json_encode($response));
+                return response()->json(['success' => true, 'message' => 'Transaction updated successfully']);
+            } else {
+                Log::error('Error updating transaction.');
+                return response()->json(['success' => false, 'message' => 'Error updating transaction'], 500);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error updating transaction: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Error updating transaction'], 500);
+        }
+    }
+
+
 
     
     public function index()
@@ -234,9 +279,13 @@ class PegawaiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pegawai $pegawai)
+    public function edit()
     {
-        return view('dashboard.edit-pegawai', compact('pegawai'));
+        $token = $this->getToken();
+ 
+        $response = $this->dataBarang($token);
+
+        return view('dashboard.edit-pegawai', compact('response'));
     }
 
     /**
