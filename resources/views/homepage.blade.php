@@ -31,8 +31,7 @@
     <div class="container">
         <div class="row">
             <div class="col text-center">
-                <img src="{{ asset('logo.png') }}" alt="Logo" style="width: 400px; height: auto;">
-                <p>Selamat Datang di Aplikasi Persensi Pegawai Non PNS Samsat Kabupaten Subang</p>
+                <p>Web Developer Test</p>
             </div>
         </div>
     </div>
