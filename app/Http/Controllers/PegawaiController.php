@@ -81,6 +81,31 @@ class PegawaiController extends Controller
          return $responseData;
      }
 
+     private function dataBarang($token)
+     {
+         $url = 'http://127.0.0.1:8001/barang';
+ 
+         $headers = [
+             'accept: application/json',
+             'Authorization: ' . $token,
+             'X-CSRFToken: 5KBmbMfCpOK4lycIYb2zsswWtQE8WNTiZBOOJ8I5QI1lQS7buSkJTP3i9s31ooVM'
+         ];
+ 
+         $ch = curl_init();
+
+         curl_setopt($ch, CURLOPT_URL, $url);
+         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+ 
+         $response = curl_exec($ch);
+ 
+         curl_close($ch);
+ 
+         $responseData = json_decode($response, true);
+ 
+         return $responseData;
+     }
+
 
     private function sendPostRequest($url, $data, $headers)
     {
@@ -155,7 +180,11 @@ class PegawaiController extends Controller
      */
     public function create()
     {
-        return view('dashboard.create-pegawai');
+        $token = $this->getToken();
+ 
+        $response = $this->dataBarang($token);
+
+        return view('dashboard.create-pegawai', compact('response'));
     }
 
     /**

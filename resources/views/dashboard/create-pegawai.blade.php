@@ -38,12 +38,22 @@
     <div class="container-fluid">
     <form id="pegawaiForm">
         <div class="mb-3">
-            <label for="barang" class="form-label">Barang</label>
-            <input type="text" class="form-control" id="barang" name="barang" required>
+            <label for="barang" class="form-label">Barang</label> 
+            <select class="form-select" id="barang" name="barang" required style="margin-left: 53px;width: 150px;">
+                <option disabled selected>Select Barang</option>
+                @foreach ($response as $key => $barang)
+                <option value="{{ $barang['id'] }}"> {{ $barang['nama_barang'] }} </option>
+                @endforeach
+
+           </select>
         </div>
         <div class="mb-3">
             <label for="jenis_transaksi" class="form-label">Jenis Transaksi</label>
-            <input type="text" class="form-control" id="jenis_transaksi" name="jenis_transaksi" required>
+            <select class="form-select" id="jenis_transaksi" name="jenis_transaksi" required style="width: 150px;">
+                <option disabled selected>Select Transaksi</option>
+                <option value="jual">Jual</option>
+                <option value="beli">Beli</option>
+           </select>
         </div>
         <div class="mb-3">
             <label for="jumlah" class="form-label">Jumlah</label>
@@ -163,6 +173,7 @@
                             data: JSON.stringify(payload),
                             success: function(response) {
                                 console.log('Transaction created successfully:', response);
+                                window.location.href = '/transaksi';
                             },
                             error: function(xhr, status, error) {
                                 console.error('Error creating transaction:', error);
