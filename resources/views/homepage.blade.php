@@ -18,7 +18,7 @@
             <a class="navbar-brand" href="#">PT Qtasnim Digital Teknologi</a>
             
             <span class="navbar-text">
-                <a href="{{ route('dashboard.login') }}"> LOGIN </a> | <a href="{{ route('presensi') }}"> PRESENSI</a>
+                <a href="{{ route('dashboard.login') }}"> LOGIN </a>
             </span>
             </div>
         </div>

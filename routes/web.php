@@ -86,7 +86,7 @@ Route::post('/generate-qrcode-masuk', [PresensiController::class, 'qrcodeGenerat
 Route::post('/generate-qrcode-keluar', [PresensiController::class, 'qrcodeGenerator_keluar'])->name('presensi.qrcodeGenerator-keluar');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/kelola-pegawai', [PegawaiController::class, 'index'])->name('dashboard.kelola-pegawai');
+    Route::get('/transaksi', [PegawaiController::class, 'index'])->name('dashboard.kelola-pegawai');
     Route::get('/create-pegawai', [PegawaiController::class, 'create'])->name('dashboard.create-pegawai');
     Route::get('/pegawai/{pegawai}/edit', [PegawaiController::class, 'edit'])->name('dashboard.edit-pegawai');
     Route::get('/qrcode-pegawai', [PegawaiController::class, 'create_qrcode'])->name('dashboard.qrcode-pegawai');

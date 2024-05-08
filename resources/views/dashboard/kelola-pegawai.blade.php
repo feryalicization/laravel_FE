@@ -59,35 +59,38 @@
             <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>NIP</th>
-                        <th>Nama</th>
-                        <th>Jabatan</th>
-                        <th>Tanggal Lahir</th>
-                        <th>Divisi</th>
-                        <th>Action</th>
+                        <th style="text-align: center;">No</th>
+                        <th style="text-align: center;">Tanggal Transaksi</th>
+                        <th style="text-align: center;">Barang</th>
+                        <th style="text-align: center;">Jenis Transaksi</th>
+                        <th style="text-align: center;">Jumlah</th>
+                        <th style="text-align: center;">Action</th>
                         <!-- Add other columns based on your Pegawai model attributes -->
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($pegawai as $key => $pegawaiItem)
-                    <tr>
-                        <td>{{ $key + 1 }}</td>
-                        <td>{{ $pegawaiItem->nip }}</td>
-                        <td>{{ $pegawaiItem->nama_pegawai }}</td>
-                        <td>{{ $pegawaiItem->jabatan }}</td>
-                        <td>{{ $pegawaiItem->tgl_lahir }}</td>
-                        <td>{{ $pegawaiItem->divisi }}</td>
-                        <td style="text-align: center;">
-                            <div class="d-grid gap-2 d-md-block">
-                            <a href="{{ route('dashboard.edit-pegawai', $pegawaiItem->id) }}"><button class="btn btn-warning btn-sm" type="button">EDIT</button></a>
-                            <button class="btn btn-danger btn-sm" type="button" onclick="confirmDelete({{ $pegawaiItem->id }})" data-bs-toggle="modal" data-bs-target="#exampleModal">HAPUS</button>
-                            </div>
-                        </td>
-                        <!-- Add other columns based on your Pegawai model attributes -->
-                    </tr>
+                @if (!empty($response))
+                    @foreach ($response as $key => $transaction)
+                        <tr>
+                            <td style="text-align: center;">{{ $key + 1 }}</td>
+                            <td style="text-align: center;">{{ $transaction['tanggal_transaksi'] }}</td>
+                            <td style="text-align: center;">{{ $transaction['nama_barang'] }}</td>
+                            <td style="text-align: center;">{{ $transaction['jenis_transaksi'] }}</td>
+                            <td style="text-align: center;">{{ $transaction['jumlah'] }}</td>
+                            <td style="text-align: center;">
+                                <a href="{{ route('dashboard.edit-pegawai', $transaction['id']) }}">
+                                    <button class="btn btn-warning btn-sm" type="button">EDIT</button>
+                                </a>
+                                <button class="btn btn-danger btn-sm" type="button" onclick="confirmDelete({{ $transaction['id'] }})" data-bs-toggle="modal" data-bs-target="#exampleModal">HAPUS</button>
+                            </td>
+                        </tr>
                     @endforeach
-                </tbody>
+                @else
+                    <tr>
+                        <td colspan="7">No transaction data available</td>
+                    </tr>
+                @endif
+            </tbody>
             </table>
         </div>
         <!-- End DataTable -->
