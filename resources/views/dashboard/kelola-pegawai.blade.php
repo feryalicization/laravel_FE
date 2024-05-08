@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Kelola Pegawai</title>
+    <title>Transaksi Barang</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -43,7 +43,7 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
-        <h1 class="h3 mb-2 text-gray-800">Kelola Pegawai</h1>
+        <h1 class="h3 mb-2 text-gray-800">Transaksi Barang</h1>
 
         <div style="text-align: right;">
             <a href="{{ route('dashboard.create-pegawai') }}">

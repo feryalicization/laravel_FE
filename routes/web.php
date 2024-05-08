@@ -102,9 +102,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/generate-qrcode', [UserController::class, 'qrcodeGenerator'])->name('user.qrcodeGenerator');
   
-    Route::get('/charts', [PegawaiController::class, 'show'])->name('dashboard.charts');
-
-
 });
 
 

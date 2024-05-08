@@ -6,11 +6,11 @@
          <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center bg-success" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center bg-success" href="#">
             <div class="sidebar-brand-icon bg-success"> PT Qtasnim Digital Teknologi </div>
         </a>
 
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
             <div class="sidebar-brand-icon">
                 <i class="fas fa-user"></i>
             </div>
@@ -24,14 +24,14 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('dashboard.kelola-pegawai') }}">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Kelola Pegawai</span></a>
+                    <span>Transaksi Barang</span></a>
             </li>
             
 
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('dashboard.data-presensi') }}">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Data Presensi</span></a>
+                    <span>Stok Barang</span></a>
             </li>
 
 

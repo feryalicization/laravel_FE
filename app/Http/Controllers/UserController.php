@@ -143,9 +143,9 @@ class UserController extends Controller
             $request->session()->put('first_name', Auth::user()->first_name);
             
             // Authentication successful
-            Log::info('User logged in: ' . Auth::user()->id);
+            Log::info('User logged in: ' . Auth::user()->id); 
     
-            return redirect()->route('dashboard.index')
+            return redirect()->route('dashboard.kelola-pegawai')
                 ->with('success', 'Login successful.');
         } else {
             // Authentication failed
