@@ -80,6 +80,63 @@ class PegawaiController extends Controller
  
          return $responseData;
      }
+
+
+    private function sendPostRequest($url, $data, $headers)
+    {
+        // Initiate cURL session
+        $ch = curl_init();
+
+        // Set cURL options
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        // Execute cURL session
+        $response = curl_exec($ch);
+
+        // Close cURL session
+        curl_close($ch);
+
+        // Decode the response
+        return json_decode($response, true);
+    }
+
+
+
+    private function createTransaction($barang, $jenisTransaksi, $jumlah)
+    {
+        $token = $this->getToken();
+
+        $transactionData = [
+            'barang' => $barang,
+            'jenis_transaksi' => $jenisTransaksi,
+            'jumlah' => $jumlah
+        ];
+
+        $headers = [
+            'accept: application/json',
+            'Authorization: Token ' . $token,
+            'Content-Type: application/json',
+            'X-CSRFToken: 5KBmbMfCpOK4lycIYb2zsswWtQE8WNTiZBOOJ8I5QI1lQS7buSkJTP3i9s31ooVM'
+        ];
+
+        $url = 'http://127.0.0.1:8001/transaksi';
+        $response = $this->sendPostRequest($url, $transactionData, $headers);
+
+        // Handle response as needed
+        if (!empty($response)) {
+            Log::info('Transaction created: ' . json_encode($response));
+        } else {
+            Log::error('Error creating transaction.');
+        }
+    }
+
+
+
+
     
     public function index()
      {
@@ -108,27 +165,19 @@ class PegawaiController extends Controller
      public function store(Request $request)
      {
 
-         $request->validate([
-             'nip' => 'required|string|max:255', 
-             'nama_pegawai' => 'required|string|max:255',
-             'jabatan' => 'required|string|max:255',
-             'tgl_lahir' => 'required|date',
-             'divisi' => 'required|string|max:255',
+        $request->validate([
+            'barang' => 'required|integer', 
+            'jenis_transaksi' => 'required|string|max:255', 
+            'jumlah' => 'required|integer|min:1',
+        ]);
+ 
+         try { 
+ 
+            $barang = $request->input('barang');
+            $jenisTransaksi = $request->input('jenis_transaksi');
+            $jumlah = $request->input('jumlah');
 
-         ]);
- 
-         try {
- 
-             $pegawai = new Pegawai();
-             $pegawai->nip = $request->input('nip');
-             $pegawai->nama_pegawai = $request->input('nama_pegawai');
-             $pegawai->jabatan = $request->input('jabatan');
-             $pegawai->tgl_lahir = $request->input('tgl_lahir');
-             $pegawai->divisi = $request->input('divisi');
- 
-             $pegawai->save();
- 
-             Log::info('New Pegawai created: ' . $pegawai->id);
+            $this->createTransaction($barang, $jenisTransaksi, $jumlah);
  
              return redirect()->route('dashboard.kelola-pegawai')
                  ->with('success', 'Pegawai created successfully.');
