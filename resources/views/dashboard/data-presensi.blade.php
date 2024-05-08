@@ -59,27 +59,29 @@
             <table id="example" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>NIP</th>
-                        <th>Nama</th>
-                        <th>Divisi</th>
-                        <th>Tanggal</th>
-                        <th>Jam Masuk</th>
-                        <th>Jam Keluar</th>
+                        <th style="text-align: center;">No</th>
+                        <th style="text-align: center;">Nama Barang</th>
+                        <th style="text-align: center;">Stok</th>
+                        <th style="text-align: center;">Jumlah Terjual</th>
+                        <th style="text-align: center;">Jenis Barang</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($presensi as $key => $presensiItem)
+                @if (!empty($response))
+                    @foreach($response as $key => $barang)
                     <tr>
-                        <td>{{ $key + 1 }}</td>
-                        <td>{{ $presensiItem->pegawai->nip }}</td>
-                        <td>{{ $presensiItem->pegawai->nama_pegawai }}</td>
-                        <td>{{ $presensiItem->pegawai->divisi }}</td>
-                        <td>{{ $presensiItem->tgl }}</td>
-                        <td>{{ $presensiItem->jam_masuk }}</td>
-                        <td>{{ $presensiItem->jam_keluar }}</td>
+                        <td style="text-align: center;">{{ $key + 1 }}</td>
+                        <td style="text-align: center;">{{ $barang['nama_barang'] }}</td>
+                        <td style="text-align: center;">{{ $barang['stok'] }}</td>
+                        <td style="text-align: center;">{{ $barang['jumlah_terjual'] }}</td>
+                        <td style="text-align: center;">{{ $barang['jenis_barang'] }}</td>
                     </tr>
                     @endforeach
+                    @else
+                    <tr>
+                        <td colspan="7">No barang data available</td>
+                    </tr>
+                @endif
                 </tbody>
             </table>
         </div>

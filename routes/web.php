@@ -97,7 +97,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/edit-password/{user}', [UserController::class, 'edit'])->name('edit.password');
     Route::post('/update-profile', [UserController::class, 'update_profile'])->name('update.profile');
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
-    Route::get('/data-presensi', [PresensiController::class, 'index'])->name('dashboard.data-presensi');
+    Route::get('/barang', [PresensiController::class, 'index'])->name('dashboard.data-presensi');
     Route::get('/data-laporan-presensi', [PresensiController::class, 'laporan_presensi'])->name('dashboard.data-laporan-presensi');
 
     Route::post('/generate-qrcode', [UserController::class, 'qrcodeGenerator'])->name('user.qrcodeGenerator');
