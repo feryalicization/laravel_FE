@@ -78,7 +78,7 @@
                             <td style="text-align: center;">{{ $transaction['jenis_transaksi'] }}</td>
                             <td style="text-align: center;">{{ $transaction['jumlah'] }}</td>
                             <td style="text-align: center;">
-                                <a href="{{ route('dashboard.edit-pegawai', $transaction['id']) }}">
+                                <a href="{{ route('dashboard.edit-pegawai', $transaction['id']) }}" style="text-decoration: none; color: inherit;">
                                     <button class="btn btn-warning btn-sm" type="button">EDIT</button>
                                 </a>
                                 <button class="btn btn-danger btn-sm" type="button" onclick="confirmDelete({{ $transaction['id'] }})" data-bs-toggle="modal" data-bs-target="#exampleModal">HAPUS</button>
@@ -95,7 +95,7 @@
         </div>
         <!-- End DataTable -->
 
-
+ 
 
         <!-- Modal Delete-->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

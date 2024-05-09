@@ -88,7 +88,7 @@ Route::post('/generate-qrcode-keluar', [PresensiController::class, 'qrcodeGenera
 Route::middleware('auth')->group(function () {
     Route::get('/transaksi', [PegawaiController::class, 'index'])->name('dashboard.kelola-pegawai');
     Route::get('/create-pegawai', [PegawaiController::class, 'create'])->name('dashboard.create-pegawai');
-    Route::get('/pegawai/{pegawai}/edit', [PegawaiController::class, 'edit'])->name('dashboard.edit-pegawai');
+    Route::get('/transaksi/{transaksi}/edit', [PegawaiController::class, 'edit'])->name('dashboard.edit-pegawai');
     Route::get('/qrcode-pegawai', [PegawaiController::class, 'create_qrcode'])->name('dashboard.qrcode-pegawai');
     Route::post('/store-qrcode', [PegawaiController::class, 'store_qrcode'])->name('pegawai.store_qrcode');
     Route::get('/create-user', [UserController::class, 'create'])->name('dashboard.create-user');
@@ -98,6 +98,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/update-profile', [UserController::class, 'update_profile'])->name('update.profile');
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
     Route::get('/barang', [PresensiController::class, 'index'])->name('dashboard.data-presensi');
+    Route::get('/create-barang', [PresensiController::class, 'create'])->name('dashboard.create-barang');
+    Route::get('/barang/{barang}/edit', [PresensiController::class, 'edit'])->name('dashboard.edit-barang');
     Route::get('/data-laporan-presensi', [PresensiController::class, 'laporan_presensi'])->name('dashboard.data-laporan-presensi');
 
     Route::post('/generate-qrcode', [UserController::class, 'qrcodeGenerator'])->name('user.qrcodeGenerator');

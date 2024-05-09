@@ -97,7 +97,8 @@ class  PresensiController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('dashboard.create-barang');
     }
 
     /**
@@ -123,7 +124,11 @@ class  PresensiController extends Controller
      */
     public function edit(Presensi $presensi)
     {
-        //
+        $token = $this->getToken();
+ 
+        $response = $this->dataBarang($token);
+
+        return view('dashboard.edit-barang', compact('response'));
     }
 
     /**

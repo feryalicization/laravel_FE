@@ -42,28 +42,24 @@
 
         <form id="editTranasaksi">
             <div class="mb-3">
-                <label for="barang" class="form-label">Barang</label> 
-                <select class="form-select" id="barang" name="barang" required style="margin-left: 53px;width: 150px;">
-                    @foreach ($response as $key => $barang)
-                    <option value="{{ $barang['id'] }}"> {{ $barang['nama_barang'] }} </option>
-                    @endforeach
-
-            </select>
+                <label for="nama_barang" class="form-label">Nama Barang</label>
+                <input type="text" class="form-control" id="nama_barang" name="nama_barang" required>
             </div>
             <div class="mb-3">
-                <label for="jenis_transaksi" class="form-label">Jenis Transaksi</label>
-                <select class="form-select" id="jenis_transaksi" name="jenis_transaksi" required style="width: 150px;">
-                    <option value="jual">Jual</option>
-                    <option value="beli">Beli</option>
-            </select>
+                <label for="stok" class="form-label">Stok</label>
+                <input type="text" class="form-control" id="stok" name="stok" required>
             </div>
             <div class="mb-3">
-                <label for="jumlah" class="form-label">Jumlah</label>
-                <input type="text" class="form-control" id="jumlah" name="jumlah" required>
+                <label for="jumlah_terjual" class="form-label">Jumlah Terjual</label>
+                <input type="text" class="form-control" id="jumlah_terjual" name="jumlah_terjual" required>
+            </div>
+            <div class="mb-3">
+                <label for="jenis_barang" class="form-label">Jenis Barang</label>
+                <input type="text" class="form-control" id="jenis_barang" name="jenis_barang" required>
             </div>
             <!-- Other form fields here -->
             <button type="button" id="submitForm" class="btn btn-primary">Edit</button>
-            <a href="{{ route('dashboard.kelola-pegawai') }}" class="btn btn-danger">Cancel</a>
+            <a href="{{ route('dashboard.data-presensi') }}" class="btn btn-danger">Cancel</a>
         </form>
     </div>
     <!-- End Page Content -->
@@ -149,7 +145,7 @@
                 if (token) {
                     var urlPath = window.location.pathname;
                     var segments = urlPath.split('/');
-                    var transactionId = segments[segments.length - 2];
+                    var barangId = segments[segments.length - 2];
 
                     var transactionHeaders = {
                         'accept': 'application/json',
@@ -160,17 +156,19 @@
 
                     $.ajax({
                         type: 'GET',
-                        url: `http://127.0.0.1:8001/transaksi/${transactionId}/`, 
+                        url: `http://127.0.0.1:8001/barang/${barangId}`, 
                         headers: transactionHeaders,
                         success: function(response) {
                             console.log('Get Detail Transaction successfully:', response);
                             var namaBarang = response.nama_barang;
-                            var jenisTransaksi = response.jenis_transaksi;
-                            var jumlah = response.jumlah;
+                            var stok = response.stok;
+                            var jumlahTerjual = response.jumlah_terjual;
+                            var jenisBarang = response.jenis_barang;
 
-                            $('#barang').append(`<option value="${response.barang}" selected>${namaBarang}</option>`);
-                            $('#jenis_transaksi').append(`<option value="${jenisTransaksi}" selected>${jenisTransaksi}</option>`);
-                            $('#jumlah').val(jumlah);
+                            $('#nama_barang').val(namaBarang);
+                            $('#stok').val(stok);
+                            $('#jumlah_terjual').val(jumlahTerjual);
+                            $('#jenis_barang').val(jenisBarang);
                         },
                         error: function(xhr, status, error) {
                             console.error('Error retrieving transaction:', error);
@@ -208,16 +206,18 @@
                 if (token) {
                     var urlPath = window.location.pathname;
                     var segments = urlPath.split('/');
-                    var transactionId = segments[segments.length - 2];
+                    var barangId = segments[segments.length - 2];
 
-                    var barang = $('#barang').val();
-                    var jenis_transaksi = $('#jenis_transaksi').val();
-                    var jumlah = $('#jumlah').val();
+                    var nama_barang = $('#nama_barang').val();
+                    var stok = $('#stok').val();
+                    var jumlah_terjual = $('#jumlah_terjual').val();
+                    var jenis_barang = $('#jenis_barang').val();
 
                     var payload = {
-                        "barang": barang,
-                        "jenis_transaksi": jenis_transaksi,
-                        "jumlah": jumlah
+                        "nama_barang": nama_barang,
+                        "stok": stok,
+                        "jumlah_terjual": jumlah_terjual,
+                        "jenis_barang": jenis_barang
                     };
 
 
@@ -230,15 +230,15 @@
 
                     $.ajax({
                         type: 'PUT',
-                        url: `http://127.0.0.1:8001/transaksi/${transactionId}/`,
+                        url: `http://127.0.0.1:8001/barang/${barangId}`,
                         headers: transactionHeaders,
                         data: JSON.stringify(payload),
                         success: function(response) {
                             console.log('Transaction updated successfully:', response);
-                            window.location.href = '/transaksi'; 
+                            window.location.href = '/barang'; 
                         },
                         error: function(xhr, status, error) {
-                            console.error('Error updating transaction:', error);
+                            console.error('Error updating barang:', error);
                         }
                     });
                 } else {

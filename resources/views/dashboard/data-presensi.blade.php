@@ -43,10 +43,10 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
-        <h1 class="h3 mb-2 text-gray-800"> History PT Qtasnim Digital Teknologi </h1>
+        <h1 class="h3 mb-2 text-gray-800"> Data Barang </h1>
 
         <div style="text-align: right;">
-            <a href="{{ route('dashboard.create-pegawai') }}">
+            <a href="{{ route('dashboard.create-barang') }}">
                 <button type="button" class="btn btn-primary btn-sm">Create</button>
             </a>
         </div>
@@ -64,6 +64,7 @@
                         <th style="text-align: center;">Stok</th>
                         <th style="text-align: center;">Jumlah Terjual</th>
                         <th style="text-align: center;">Jenis Barang</th>
+                        <th style="text-align: center;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,6 +76,12 @@
                         <td style="text-align: center;">{{ $barang['stok'] }}</td>
                         <td style="text-align: center;">{{ $barang['jumlah_terjual'] }}</td>
                         <td style="text-align: center;">{{ $barang['jenis_barang'] }}</td>
+                        <td style="text-align: center;">
+                            <a href="{{ route('dashboard.edit-barang', $barang['id']) }}" style="text-decoration: none; color: inherit;">
+                                <button class="btn btn-warning btn-sm" type="button">EDIT</button>
+                            </a>
+                            <button class="btn btn-danger btn-sm" type="button" onclick="confirmDelete({{ $barang['id'] }})" data-bs-toggle="modal" data-bs-target="#exampleModal">HAPUS</button>
+                        </td>
                     </tr>
                     @endforeach
                     @else
@@ -135,6 +142,34 @@
         </div>
     </div>
 
+
+
+    <!-- Modal Delete-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-circle fa-3x text-danger"></i>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    Apakah anda yakin ingin menghapus data?
+                </div>
+                <div class="modal-footer">
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        <button type="submit" id="submitForm" class="btn btn-danger">Yes</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <script>
     $(document).ready(function () {
         $('#example').DataTable({
@@ -145,6 +180,64 @@
         });
     });
 </script>
+
+
+<script>
+    function confirmDelete(transactionId) {
+        var deleteForm = document.getElementById('deleteForm');
+        deleteForm.action = `http://127.0.0.1:8001/barang/${transactionId}`;
+        $('#exampleModal').modal('show');
+    }
+
+    $(document).ready(function() {
+        $('#deleteForm').on('submit', function(e) {
+            e.preventDefault(); 
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://127.0.0.1:8001/api/token/',
+                headers: {
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '5KBmbMfCpOK4lycIYb2zsswWtQE8WNTiZBOOJ8I5QI1lQS7buSkJTP3i9s31ooVM'
+                },
+                data: JSON.stringify({
+                    "email": "fery@gmail.com",
+                    "password": "1234"
+                }),
+                success: function(tokenResponse) {
+                    var token = tokenResponse.token;
+                    if (token) {
+                        $.ajax({
+                            type: 'DELETE',
+                            url: deleteForm.action, 
+                            headers: {
+                                'accept': 'application/json',
+                                'Authorization': '' + token,
+                                'X-CSRFToken': 'kuniCMoBBljuYsz9QgQrHJc65GS812UQIgXz3O5fTvmkN3AX5Co8quRRqqcWMOVe'
+                            },
+                            success: function(response) {
+                                console.log('Transaction deleted successfully:', response);
+                                window.location.reload(); 
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error deleting transaction:', error);
+                            }
+                        });
+
+                        $('#exampleModal').modal('hide');
+                    } else {
+                        console.error('Error: Token not found in response.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error generating token:', error);
+                }
+            });
+        });
+    });
+</script>
+
 
 
 
