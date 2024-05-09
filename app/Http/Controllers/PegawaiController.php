@@ -216,7 +216,7 @@ class PegawaiController extends Controller
  
         //  dd($response);
  
-         return view('dashboard.kelola-pegawai', compact('response'));
+         return view('dashboard.transaksi', compact('response'));
      }
 
 
@@ -253,7 +253,7 @@ class PegawaiController extends Controller
 
             $this->createTransaction($barang, $jenisTransaksi, $jumlah);
  
-             return redirect()->route('dashboard.kelola-pegawai')
+             return redirect()->route('dashboard.transaksi')
                  ->with('success', 'Pegawai created successfully.');
          } catch (\Exception $e) {
              Log::error('Error creating Pegawai: ' . $e->getMessage());
@@ -317,7 +317,7 @@ class PegawaiController extends Controller
             // Log success message
             Log::info('Pegawai updated: ' . $pegawai->id);
 
-            return redirect()->route('dashboard.kelola-pegawai')
+            return redirect()->route('dashboard.transaksi')
                 ->with('success', 'Pegawai updated successfully.');
         } catch (\Exception $e) {
             // Log error message
@@ -339,7 +339,7 @@ class PegawaiController extends Controller
             // Log success message
             Log::info('Pegawai deleted: ' . $pegawai->id);
 
-            return redirect()->route('dashboard.kelola-pegawai')
+            return redirect()->route('dashboard.transaksi')
                 ->with('success', 'Pegawai deleted successfully.');
         } catch (\Exception $e) {
             // Log error message
@@ -383,7 +383,7 @@ class PegawaiController extends Controller
 
             Log::info('QR Code generated and stored for Pegawai: ' . $pegawai->id);
     
-            return redirect()->route('dashboard.kelola-pegawai')
+            return redirect()->route('dashboard.transaksi')
                 ->with('success', 'QR Code generated and stored successfully.');
         } catch (\Exception $e) {
             // Log error message

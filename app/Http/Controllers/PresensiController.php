@@ -83,7 +83,7 @@ class  PresensiController extends Controller
 
         // dd($response);
 
-        return view('dashboard.data-presensi', compact('response'));
+        return view('dashboard.barang', compact('response'));
     }
 
     public function laporan_presensi()

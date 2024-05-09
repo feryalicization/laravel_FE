@@ -78,11 +78,11 @@ Route::post('/user-login', [UserController::class, 'login']);
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/transaksi', [PegawaiController::class, 'index'])->name('dashboard.kelola-pegawai');
+    Route::get('/transaksi', [PegawaiController::class, 'index'])->name('dashboard.transaksi');
     Route::get('/create-pegawai', [PegawaiController::class, 'create'])->name('dashboard.create-pegawai');
     Route::get('/transaksi/{transaksi}/edit', [PegawaiController::class, 'edit'])->name('dashboard.edit-pegawai');
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
-    Route::get('/barang', [PresensiController::class, 'index'])->name('dashboard.data-presensi');
+    Route::get('/barang', [PresensiController::class, 'index'])->name('dashboard.barang');
     Route::get('/create-barang', [PresensiController::class, 'create'])->name('dashboard.create-barang');
     Route::get('/barang/{barang}/edit', [PresensiController::class, 'edit'])->name('dashboard.edit-barang');
 

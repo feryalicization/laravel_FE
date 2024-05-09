@@ -145,7 +145,7 @@ class UserController extends Controller
             // Authentication successful
             Log::info('User logged in: ' . Auth::user()->id); 
     
-            return redirect()->route('dashboard.kelola-pegawai')
+            return redirect()->route('dashboard.transaksi')
                 ->with('success', 'Login successful.');
         } else {
             // Authentication failed

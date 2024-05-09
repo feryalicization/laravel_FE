@@ -61,7 +61,7 @@
         </div>
         <!-- Other form fields here -->
         <button type="button" id="submitForm" class="btn btn-primary">Create</button>
-        <a href="{{ route('dashboard.kelola-pegawai') }}" class="btn btn-danger">Cancel</a>
+        <a href="{{ route('dashboard.transaksi') }}" class="btn btn-danger">Cancel</a>
     </form>
 </div>
 

@@ -21,7 +21,7 @@
             <!-- Nav Item - Dashboard -->
             
             <li class="nav-item active">
-                <a class="nav-link" href="{{ route('dashboard.kelola-pegawai') }}">
+                <a class="nav-link" href="{{ route('dashboard.transaksi') }}">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Transaksi Barang</span></a>
             </li>
