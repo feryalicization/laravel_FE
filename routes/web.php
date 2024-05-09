@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/barang', [BarangController::class, 'index'])->name('dashboard.barang');
     Route::get('/create-barang', [BarangController::class, 'create'])->name('dashboard.create-barang');
     Route::get('/barang/{barang}/edit', [BarangController::class, 'edit'])->name('dashboard.edit-barang');
+    Route::get('/dashboard', [BarangController::class, 'dashboard'])->name('dashboard.perbandingan-barang');
 
 
   

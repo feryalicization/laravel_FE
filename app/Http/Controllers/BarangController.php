@@ -68,6 +68,36 @@ class  BarangController extends Controller
          return $responseData;
      }
 
+     private function dataPerbandinganBarang($token)
+     {
+         $url = 'http://127.0.0.1:8001/perbandingan';
+ 
+         $headers = [
+             'accept: application/json',
+             'Authorization: ' . $token,
+             'X-CSRFToken: 5KBmbMfCpOK4lycIYb2zsswWtQE8WNTiZBOOJ8I5QI1lQS7buSkJTP3i9s31ooVM'
+         ];
+ 
+         $ch = curl_init();
+
+         curl_setopt($ch, CURLOPT_URL, $url);
+         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+ 
+         $response = curl_exec($ch);
+ 
+         curl_close($ch);
+ 
+         $responseData = json_decode($response, true);
+ 
+         if (isset($responseData['data'])) {
+            return $responseData['data']; 
+        } else {
+            return []; 
+        }
+
+     }
+
 
     public function index()
     {
@@ -97,6 +127,17 @@ class  BarangController extends Controller
         $response = $this->dataBarang($token);
 
         return view('dashboard.edit-barang', compact('response'));
+    }
+
+
+    public function dashboard()
+    {
+        $token = $this->getToken();
+ 
+        $response = $this->dataPerbandinganBarang($token);
+        // dd($response);
+
+        return view('dashboard.perbandingan-barang', compact('response'));
     }
 
 
