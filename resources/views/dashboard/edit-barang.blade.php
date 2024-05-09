@@ -59,7 +59,7 @@
             </div>
             <!-- Other form fields here -->
             <button type="button" id="submitForm" class="btn btn-primary">Edit</button>
-            <a href="{{ route('dashboard.data-presensi') }}" class="btn btn-danger">Cancel</a>
+            <a href="{{ route('dashboard.barang') }}" class="btn btn-danger">Cancel</a>
         </form>
     </div>
     <!-- End Page Content -->

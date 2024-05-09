@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\PegawaiController;
-use App\Http\Controllers\PresensiController;
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\UserController;
 use App\Models\Presensi;
 use Illuminate\Support\Facades\Route;
@@ -38,8 +38,8 @@ Route::get('/test-db-connection', function () {
 
 
 Route::apiResource('user', UserController::class);
-Route::apiResource('pegawai', PegawaiController::class);
-Route::apiResource('presensi', PresensiController::class);
+Route::apiResource('pegawai', TransaksiController::class);
+Route::apiResource('presensi', BarangController::class);
 
 
 Route::get('/presensi', function () {
@@ -78,13 +78,13 @@ Route::post('/user-login', [UserController::class, 'login']);
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/transaksi', [PegawaiController::class, 'index'])->name('dashboard.transaksi');
-    Route::get('/create-pegawai', [PegawaiController::class, 'create'])->name('dashboard.create-pegawai');
-    Route::get('/transaksi/{transaksi}/edit', [PegawaiController::class, 'edit'])->name('dashboard.edit-pegawai');
+    Route::get('/transaksi', [TransaksiController::class, 'index'])->name('dashboard.transaksi');
+    Route::get('/create-pegawai', [TransaksiController::class, 'create'])->name('dashboard.create-pegawai');
+    Route::get('/transaksi/{transaksi}/edit', [TransaksiController::class, 'edit'])->name('dashboard.edit-pegawai');
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
-    Route::get('/barang', [PresensiController::class, 'index'])->name('dashboard.barang');
-    Route::get('/create-barang', [PresensiController::class, 'create'])->name('dashboard.create-barang');
-    Route::get('/barang/{barang}/edit', [PresensiController::class, 'edit'])->name('dashboard.edit-barang');
+    Route::get('/barang', [BarangController::class, 'index'])->name('dashboard.barang');
+    Route::get('/create-barang', [BarangController::class, 'create'])->name('dashboard.create-barang');
+    Route::get('/barang/{barang}/edit', [BarangController::class, 'edit'])->name('dashboard.edit-barang');
 
 
   
