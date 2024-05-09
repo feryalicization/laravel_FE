@@ -73,36 +73,20 @@ Route::get('/index', function () {
 })->name('dashboard.index');
 
 
-// Route::get('/charts', function () {
-//     return view('dashboard.charts');
-// })->name('dashboard.charts');
-
 Route::get('/user-login', [UserController::class, 'login_page'])->name('dashboard.login');
 Route::post('/user-login', [UserController::class, 'login']);
 
-Route::get('/qrcode-absen', [PresensiController::class, 'qrcode_absen']);
-
-Route::post('/generate-qrcode-masuk', [PresensiController::class, 'qrcodeGenerator'])->name('presensi.qrcodeGenerator');
-Route::post('/generate-qrcode-keluar', [PresensiController::class, 'qrcodeGenerator_keluar'])->name('presensi.qrcodeGenerator-keluar');
 
 Route::middleware('auth')->group(function () {
     Route::get('/transaksi', [PegawaiController::class, 'index'])->name('dashboard.kelola-pegawai');
     Route::get('/create-pegawai', [PegawaiController::class, 'create'])->name('dashboard.create-pegawai');
     Route::get('/transaksi/{transaksi}/edit', [PegawaiController::class, 'edit'])->name('dashboard.edit-pegawai');
-    Route::get('/qrcode-pegawai', [PegawaiController::class, 'create_qrcode'])->name('dashboard.qrcode-pegawai');
-    Route::post('/store-qrcode', [PegawaiController::class, 'store_qrcode'])->name('pegawai.store_qrcode');
-    Route::get('/create-user', [UserController::class, 'create'])->name('dashboard.create-user');
-    Route::get('/user-profile', [UserController::class, 'show'])->name('dashboard.index');
-    Route::post('/update-password', [UserController::class, 'update'])->name('update.password');
-    Route::get('/edit-password/{user}', [UserController::class, 'edit'])->name('edit.password');
-    Route::post('/update-profile', [UserController::class, 'update_profile'])->name('update.profile');
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
     Route::get('/barang', [PresensiController::class, 'index'])->name('dashboard.data-presensi');
     Route::get('/create-barang', [PresensiController::class, 'create'])->name('dashboard.create-barang');
     Route::get('/barang/{barang}/edit', [PresensiController::class, 'edit'])->name('dashboard.edit-barang');
-    Route::get('/data-laporan-presensi', [PresensiController::class, 'laporan_presensi'])->name('dashboard.data-laporan-presensi');
 
-    Route::post('/generate-qrcode', [UserController::class, 'qrcodeGenerator'])->name('user.qrcodeGenerator');
+
   
 });
 
