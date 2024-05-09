@@ -225,7 +225,7 @@ class TransaksiController extends Controller
  
         $response = $this->dataBarang($token);
 
-        return view('dashboard.create-pegawai', compact('response'));
+        return view('dashboard.create-transaksi', compact('response'));
     }
 
     /**
@@ -266,7 +266,7 @@ class TransaksiController extends Controller
  
         $response = $this->dataBarang($token);
 
-        return view('dashboard.edit-pegawai', compact('response'));
+        return view('dashboard.edit-transaksi', compact('response'));
     }
 
 
